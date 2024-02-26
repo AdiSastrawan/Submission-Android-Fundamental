@@ -2,6 +2,7 @@ package com.adisastrawan.mysearchsubmission.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -30,8 +31,13 @@ class UsersAdapter : ListAdapter<ItemsItem, UsersAdapter.ViewHolder>(DIFF_CALLBA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
+        holder.itemView.setOnClickListener{
+            val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+            toDetailFragment.username = user.login
+            it.findNavController().navigate(toDetailFragment)
+        }
     }
-    class ViewHolder(val binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user : ItemsItem){
             binding.tvUsername.text = user.login
             Glide.with(itemView)

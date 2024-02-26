@@ -63,5 +63,8 @@ class HomeFragment : Fragment() {
         adapter.submitList(users)
         binding.rvUsers.adapter = adapter
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding =null
+    }
 }

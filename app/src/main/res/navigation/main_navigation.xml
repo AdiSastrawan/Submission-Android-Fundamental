@@ -9,5 +9,22 @@
         android:id="@+id/homeFragment"
         android:name="com.adisastrawan.mysearchsubmission.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.adisastrawan.mysearchsubmission.ui.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="username"
+            android:defaultValue="default username"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("androidx.navigation.safeargs")
 }
 
 android {
@@ -13,7 +14,8 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String","API_KEY","\"\"")
+        buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+        buildConfigField("String","API_KEY","\"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\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,6 +37,7 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        buildConfig = true
     }
 }
 
