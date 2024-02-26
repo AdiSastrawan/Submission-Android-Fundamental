@@ -22,42 +22,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.rvUsers.layoutManager = layoutManager
-        val itemDecorations = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvUsers.addItemDecoration(itemDecorations)
-        val viewModel = MainViewModel()
-        with(binding){
-            searchView.setupWithSearchBar(searchBar)
-            searchView
-            .editText
-            .setOnEditorActionListener { _, _, _ ->
-                searchBar.setText(searchView.text)
-                searchView.hide()
-                viewModel.getGithubUsers(searchView.text.toString())
-                false
-            }
-        }
-        viewModel.users.observe(this) {
-            setGithubUsers(it)
-        }
-        viewModel.isLoading.observe(this){
-            showLoading(it)
-        }
     }
 
 
-    private fun showLoading(isLoading : Boolean){
-        if(isLoading){
-            binding.progressBar.visibility = View.VISIBLE
-        }else{
-            binding.progressBar.visibility = View.INVISIBLE
-        }
-    }
 
-    private fun setGithubUsers(users:List<ItemsItem>){
-        val adapter = UsersAdapter()
-        adapter.submitList(users)
-        binding.rvUsers.adapter = adapter
-    }
 }
