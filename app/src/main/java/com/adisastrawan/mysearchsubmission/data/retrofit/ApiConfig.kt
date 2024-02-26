@@ -1,5 +1,6 @@
 package com.adisastrawan.mysearchsubmission.data.retrofit
 
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,9 +9,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiConfig {
     companion object{
         fun getApiService():ApiService{
+            val authInterceptor = Interceptor{
+                val req = it.request()
+                val requestHeader = req.newBuilder().addHeader("Authorization","H").build()
+                it.proceed(requestHeader)
+            }
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
