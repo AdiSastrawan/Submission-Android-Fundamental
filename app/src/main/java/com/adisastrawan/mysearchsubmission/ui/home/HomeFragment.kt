@@ -1,15 +1,17 @@
-package com.adisastrawan.mysearchsubmission.ui
+package com.adisastrawan.mysearchsubmission.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.adisastrawan.mysearchsubmission.R
 import com.adisastrawan.mysearchsubmission.data.respond.ItemsItem
 import com.adisastrawan.mysearchsubmission.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 
 
 class HomeFragment : Fragment() {
@@ -19,7 +21,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -30,7 +31,10 @@ class HomeFragment : Fragment() {
         binding.rvUsers.layoutManager = layoutManager
         val itemDecorations = DividerItemDecoration(activity, layoutManager.orientation)
         binding.rvUsers.addItemDecoration(itemDecorations)
-        val viewModel = MainViewModel()
+        val viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        )[MainViewModel::class.java]
         with(binding){
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -48,6 +52,13 @@ class HomeFragment : Fragment() {
         viewModel.isLoading.observe(this.viewLifecycleOwner){
             showLoading(it)
         }
+        viewModel.snackBarText.observe(this.viewLifecycleOwner){ it->
+            it.getContentIfNotHandled()?.let {
+                Snackbar.make(  (activity as AppCompatActivity).window.decorView.rootView,
+                    it,
+                    Snackbar.LENGTH_SHORT).show()
+            }
+        }
 
     }
     private fun showLoading(isLoading : Boolean){
@@ -62,6 +73,11 @@ class HomeFragment : Fragment() {
         val adapter = UsersAdapter()
         adapter.submitList(users)
         binding.rvUsers.adapter = adapter
+        if(users.isEmpty()){
+            binding.tvExist.visibility =View.VISIBLE
+        }else{
+            binding.tvExist.visibility =View.INVISIBLE
+        }
     }
     override fun onDestroy() {
         super.onDestroy()

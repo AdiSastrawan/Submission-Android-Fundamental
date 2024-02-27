@@ -1,23 +1,22 @@
-package com.adisastrawan.mysearchsubmission.ui
+package com.adisastrawan.mysearchsubmission.ui.detail.follower
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.adisastrawan.mysearchsubmission.data.respond.ItemsItem
+import com.adisastrawan.mysearchsubmission.data.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.databinding.ItemRowUserBinding
 import com.bumptech.glide.Glide
 
-class UsersAdapter : ListAdapter<ItemsItem, UsersAdapter.ViewHolder>(DIFF_CALLBACK) {
+class FollowerAdapter : ListAdapter<DetailUserResponse, FollowerAdapter.ViewHolder>(DIFF_CALLBACK) {
     companion object  {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemsItem>(){
-            override fun areItemsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DetailUserResponse>(){
+            override fun areItemsTheSame(oldItem: DetailUserResponse, newItem: DetailUserResponse): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+            override fun areContentsTheSame(oldItem: DetailUserResponse, newItem:DetailUserResponse ): Boolean {
                 return oldItem == newItem
             }
 
@@ -31,14 +30,10 @@ class UsersAdapter : ListAdapter<ItemsItem, UsersAdapter.ViewHolder>(DIFF_CALLBA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
-        holder.itemView.setOnClickListener{
-            val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
-            toDetailFragment.username = user.login
-            it.findNavController().navigate(toDetailFragment)
-        }
+
     }
     class ViewHolder(private val binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user : ItemsItem){
+        fun bind(user : DetailUserResponse){
             binding.tvUsername.text = user.login
             Glide.with(itemView)
                 .load(user.avatarUrl)
