@@ -1,16 +1,21 @@
 package com.adisastrawan.mysearchsubmission.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import com.adisastrawan.mysearchsubmission.data.repository.Result
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.adisastrawan.mysearchsubmission.data.respond.ItemsItem
+import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserEntity
+import com.adisastrawan.mysearchsubmission.data.remote.respond.ItemsItem
 import com.adisastrawan.mysearchsubmission.databinding.FragmentHomeBinding
+import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -31,10 +36,8 @@ class HomeFragment : Fragment() {
         binding.rvUsers.layoutManager = layoutManager
         val itemDecorations = DividerItemDecoration(activity, layoutManager.orientation)
         binding.rvUsers.addItemDecoration(itemDecorations)
-        val viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        )[MainViewModel::class.java]
+        val factory : ViewModelFactory =ViewModelFactory.getInstance(this.requireActivity())
+        val viewModel : MainViewModel by viewModels{ factory }
         with(binding){
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -42,16 +45,11 @@ class HomeFragment : Fragment() {
                 .setOnEditorActionListener { _, _, _ ->
                     searchBar.setText(searchView.text)
                     searchView.hide()
-                    viewModel.getGithubUsers(searchView.text.toString())
+                    getUser(searchView.text.toString(),viewModel)
                     false
                 }
         }
-        viewModel.users.observe(this.viewLifecycleOwner) {
-            setGithubUsers(it)
-        }
-        viewModel.isLoading.observe(this.viewLifecycleOwner){
-            showLoading(it)
-        }
+        getUser(viewModel=viewModel)
         viewModel.snackBarText.observe(this.viewLifecycleOwner){ it->
             it.getContentIfNotHandled()?.let {
                 Snackbar.make(  (activity as AppCompatActivity).window.decorView.rootView,
@@ -61,15 +59,33 @@ class HomeFragment : Fragment() {
         }
 
     }
-    private fun showLoading(isLoading : Boolean){
-        if(isLoading){
-            binding.progressBar.visibility = View.VISIBLE
-        }else{
-            binding.progressBar.visibility = View.INVISIBLE
+    private fun getUser(username: String= "Adi",viewModel:MainViewModel){
+        viewModel.getGithubUsers(username).observe(this.viewLifecycleOwner){ result ->
+            if (result != null) {
+                Log.d("result",result.toString())
+                when (result) {
+                    is Result.Loading -> {
+                        binding?.progressBar?.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding?.progressBar?.visibility = View.GONE
+                        val users = result.data
+                        setGithubUsers(users)
+                    }
+                    is Result.Error -> {
+                        binding?.progressBar?.visibility = View.GONE
+                        Toast.makeText(
+                            context,
+                            "Terjadi kesalahan" + result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
         }
     }
-
-    private fun setGithubUsers(users:List<ItemsItem>){
+    private fun setGithubUsers(users:List<UserEntity>){
         val adapter = UsersAdapter()
         adapter.submitList(users)
         binding.rvUsers.adapter = adapter

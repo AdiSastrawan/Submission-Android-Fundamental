@@ -5,18 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.adisastrawan.mysearchsubmission.data.respond.DetailUserResponse
+import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserFollowerEntity
+import com.adisastrawan.mysearchsubmission.data.remote.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.databinding.ItemRowUserBinding
 import com.bumptech.glide.Glide
 
-class FollowerAdapter : ListAdapter<DetailUserResponse, FollowerAdapter.ViewHolder>(DIFF_CALLBACK) {
+class FollowerAdapter : ListAdapter<UserFollowerEntity, FollowerAdapter.ViewHolder>(DIFF_CALLBACK) {
     companion object  {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DetailUserResponse>(){
-            override fun areItemsTheSame(oldItem: DetailUserResponse, newItem: DetailUserResponse): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserFollowerEntity>(){
+            override fun areItemsTheSame(oldItem: UserFollowerEntity, newItem: UserFollowerEntity): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: DetailUserResponse, newItem:DetailUserResponse ): Boolean {
+            override fun areContentsTheSame(oldItem: UserFollowerEntity, newItem: UserFollowerEntity): Boolean {
                 return oldItem == newItem
             }
 
@@ -33,8 +34,8 @@ class FollowerAdapter : ListAdapter<DetailUserResponse, FollowerAdapter.ViewHold
 
     }
     class ViewHolder(private val binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user : DetailUserResponse){
-            binding.tvUsername.text = user.login
+        fun bind(user : UserFollowerEntity){
+            binding.tvUsername.text = user.username
             Glide.with(itemView)
                 .load(user.avatarUrl)
                 .into(binding.ivUser)

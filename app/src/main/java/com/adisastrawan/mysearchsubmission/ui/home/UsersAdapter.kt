@@ -6,18 +6,19 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.adisastrawan.mysearchsubmission.data.respond.ItemsItem
+import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserEntity
+import com.adisastrawan.mysearchsubmission.data.remote.respond.ItemsItem
 import com.adisastrawan.mysearchsubmission.databinding.ItemRowUserBinding
 import com.bumptech.glide.Glide
 
-class UsersAdapter : ListAdapter<ItemsItem, UsersAdapter.ViewHolder>(DIFF_CALLBACK) {
+class UsersAdapter : ListAdapter<UserEntity, UsersAdapter.ViewHolder>(DIFF_CALLBACK) {
     companion object  {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemsItem>(){
-            override fun areItemsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserEntity>(){
+            override fun areItemsTheSame(oldItem: UserEntity, newItem: UserEntity): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ItemsItem, newItem: ItemsItem): Boolean {
+            override fun areContentsTheSame(oldItem: UserEntity, newItem: UserEntity): Boolean {
                 return oldItem == newItem
             }
 
@@ -33,13 +34,13 @@ class UsersAdapter : ListAdapter<ItemsItem, UsersAdapter.ViewHolder>(DIFF_CALLBA
         holder.bind(user)
         holder.itemView.setOnClickListener{
             val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
-            toDetailFragment.username = user.login
+            toDetailFragment.username = user.username
             it.findNavController().navigate(toDetailFragment)
         }
     }
     class ViewHolder(private val binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user : ItemsItem){
-            binding.tvUsername.text = user.login
+        fun bind(user : UserEntity){
+            binding.tvUsername.text = user.username
             Glide.with(itemView)
                 .load(user.avatarUrl)
                 .into(binding.ivUser)

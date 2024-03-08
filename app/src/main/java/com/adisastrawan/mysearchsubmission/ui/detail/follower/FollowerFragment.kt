@@ -6,12 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.adisastrawan.mysearchsubmission.data.respond.DetailUserResponse
+import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserFollowerEntity
+import com.adisastrawan.mysearchsubmission.data.remote.respond.DetailUserResponse
+import com.adisastrawan.mysearchsubmission.data.repository.Result
 import com.adisastrawan.mysearchsubmission.databinding.FragmentFollowerBinding
+import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
 class FollowerFragment : Fragment() {
@@ -31,10 +36,8 @@ class FollowerFragment : Fragment() {
         binding.rvFollower.layoutManager = layoutManager
         val itemDecorations = DividerItemDecoration(activity, layoutManager.orientation)
         binding.rvFollower.addItemDecoration(itemDecorations)
-        val viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        )[FollowerViewModel::class.java]
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        val viewModel : FollowerViewModel by viewModels {factory }
         var position = 0
         var username = ""
         arguments?.let{
@@ -43,16 +46,16 @@ class FollowerFragment : Fragment() {
         }
         Log.d("position",position.toString())
         if(position == 1){
-            viewModel.getUserFollowers(username)
+            Log.d("masih disini", "test")
+            viewModel.getUserFollowers(username).observe(viewLifecycleOwner){result ->
+               showFollower(result)
+            }
         }else {
-            viewModel.getUserFollowing(username)
+            viewModel.getUserFollowing(username).observe(viewLifecycleOwner){
+                result -> showFollower(result)
+            }
         }
-        viewModel.isLoading.observe(this.viewLifecycleOwner){
-            showLoading(it)
-        }
-        viewModel.users.observe(this.viewLifecycleOwner){
-            setFollower(it)
-        }
+
         viewModel.snackBarText.observe(this.viewLifecycleOwner){ it->
             it.getContentIfNotHandled()?.let {
                 Snackbar.make(  (activity as AppCompatActivity).window.decorView.rootView,
@@ -61,16 +64,31 @@ class FollowerFragment : Fragment() {
             }
         }
     }
-
-    private fun showLoading(isLoading : Boolean){
-        if(isLoading){
-            binding.progressBar.visibility = View.VISIBLE
-        }else{
-            binding.progressBar.visibility = View.INVISIBLE
+    private fun showFollower(result:Result<List<UserFollowerEntity>>){
+        if (result != null) {
+            Log.d("result",result.toString())
+            when (result) {
+                is Result.Loading -> {
+                    binding?.progressBar?.visibility = View.VISIBLE
+                }
+                is Result.Success -> {
+                    binding?.progressBar?.visibility = View.GONE
+                    val users = result.data
+                    setFollower(users)
+                }
+                is Result.Error -> {
+                    binding?.progressBar?.visibility = View.GONE
+                    Toast.makeText(
+                        context,
+                        "Terjadi kesalahan" + result.error,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 
-    private fun setFollower(users:List<DetailUserResponse>){
+    private fun setFollower(users:List<UserFollowerEntity>){
         val adapter = FollowerAdapter()
         adapter.submitList(users)
         binding.rvFollower.adapter = adapter

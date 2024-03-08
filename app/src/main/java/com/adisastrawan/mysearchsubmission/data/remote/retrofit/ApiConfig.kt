@@ -1,4 +1,4 @@
-package com.adisastrawan.mysearchsubmission.data.retrofit
+package com.adisastrawan.mysearchsubmission.data.remote.retrofit
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -9,7 +9,7 @@ import com.adisastrawan.mysearchsubmission.BuildConfig
 
 class ApiConfig {
     companion object{
-        fun getApiService():ApiService{
+        fun getApiService(): ApiService {
             val authInterceptor = Interceptor{
                 val req = it.request()
                 val requestHeader = req.newBuilder()
