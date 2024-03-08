@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.adisastrawan.mysearchsubmission.data.respond.DetailUserResponse
-import com.adisastrawan.mysearchsubmission.data.respond.ItemsItem
 import com.adisastrawan.mysearchsubmission.data.retrofit.ApiConfig
-import com.adisastrawan.mysearchsubmission.ui.detail.DetailViewModel
 import com.adisastrawan.mysearchsubmission.utils.Event
 import retrofit2.Call
 import retrofit2.Callback

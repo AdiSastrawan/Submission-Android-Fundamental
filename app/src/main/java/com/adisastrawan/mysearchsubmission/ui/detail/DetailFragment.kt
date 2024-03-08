@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.adisastrawan.mysearchsubmission.data.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.databinding.FragmentDetailBinding
-import com.adisastrawan.mysearchsubmission.ui.home.MainViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
