@@ -13,16 +13,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailViewModel (private val userRepository: UserRepository) : ViewModel() {
-    companion object{
-        const val TAG ="DetailFragment"
-    }
-    private var _userDetail  = MutableLiveData<DetailUserResponse>()
-    val userDetail : LiveData<DetailUserResponse> = _userDetail
-
-    private var _isLoading = MutableLiveData<Boolean>()
-    val isLoading : LiveData<Boolean> = _isLoading
-
     private var _snackBarText = MutableLiveData<Event<String>>()
     val snackBarText : LiveData<Event<String>> = _snackBarText
     fun getDetailUser(username:String) = userRepository.getUserDetail(username)
+    fun updateToFavorite(username: String) = userRepository.updateToFavorite(username)
+    fun isUserFavorited(username: String) = userRepository.isUserFavorited(username)
 }

@@ -31,7 +31,6 @@ class FollowerAdapter : ListAdapter<UserFollowerEntity, FollowerAdapter.ViewHold
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
-
     }
     class ViewHolder(private val binding: ItemRowUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user : UserFollowerEntity){

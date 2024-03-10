@@ -1,5 +1,6 @@
 package com.adisastrawan.mysearchsubmission.ui.home
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,9 +10,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.adisastrawan.mysearchsubmission.data.repository.Result
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adisastrawan.mysearchsubmission.R
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserEntity
 import com.adisastrawan.mysearchsubmission.data.remote.respond.ItemsItem
 import com.adisastrawan.mysearchsubmission.databinding.FragmentHomeBinding
@@ -36,9 +39,25 @@ class HomeFragment : Fragment() {
         binding.rvUsers.layoutManager = layoutManager
         val itemDecorations = DividerItemDecoration(activity, layoutManager.orientation)
         binding.rvUsers.addItemDecoration(itemDecorations)
-        val factory : ViewModelFactory =ViewModelFactory.getInstance(this.requireActivity())
+        val factory : ViewModelFactory =ViewModelFactory.getInstance(this.requireActivity()
+        )
         val viewModel : MainViewModel by viewModels{ factory }
         with(binding){
+            searchBar.setOnMenuItemClickListener{
+                when(it.itemId)
+                {
+                    R.id.menu_favorite -> {
+                        view.findNavController().navigate(R.id.action_homeFragment_to_favoriteFragment)
+                        false
+                    }
+                    R.id.menu_setting -> {
+                        view.findNavController().navigate(R.id.action_homeFragment_to_settingFragment)
+                        false
+                    }else->{
+                        false
+                    }
+                }
+            }
             searchView.setupWithSearchBar(searchBar)
             searchView
                 .editText
@@ -95,6 +114,7 @@ class HomeFragment : Fragment() {
             binding.tvExist.visibility =View.INVISIBLE
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding =null

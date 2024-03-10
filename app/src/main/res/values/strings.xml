@@ -4,4 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_user_found">No User Found</string>
     <string name="image_avatar">image avatar</string>
+    <string name="favorite">Favorite</string>
+    <string name="darkmode">DarkMode</string>
+    <string name="setting">Setting</string>
 </resources>

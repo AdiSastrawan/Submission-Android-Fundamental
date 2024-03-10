@@ -12,6 +12,8 @@ import com.adisastrawan.mysearchsubmission.data.local.database.room.UserDao
 import com.adisastrawan.mysearchsubmission.data.local.database.room.UserDetailDao
 import com.adisastrawan.mysearchsubmission.data.local.database.room.UserFollowerDao
 import com.adisastrawan.mysearchsubmission.data.remote.retrofit.ApiService
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 
 class UserRepository(
     private val apiService: ApiService,
@@ -48,8 +50,13 @@ class UserRepository(
             Log.d(TAG, "getUserDetail : ${e.message.toString()} ")
             emit(Result.Error(e.message.toString()))
         }
-        val localData : LiveData<Result<UserDetailEntity>> = userDetailDao.getUserDetail(username).map { Result.Success(it) }
-        emitSource(localData)
+        val isUserExist = userDetailDao.isUserExist(username)
+        if(isUserExist){
+            val localData : LiveData<Result<UserDetailEntity>> = userDetailDao.getUserDetail(username).map{ Result.Success(it) }
+            emitSource(localData)
+        }else{
+            emit(Result.Error("Internal Server Error"))
+        }
     }
 
     fun getUserFollowers(username: String) : LiveData<Result<List<UserFollowerEntity>>> = liveData {
@@ -57,9 +64,9 @@ class UserRepository(
         try {
             val response = apiService.getFollowers(username)
             val usersList = response.map {
-                UserFollowerEntity(it.login,it.avatarUrl)
+                UserFollowerEntity(username=it.login, avatarUrl = it.avatarUrl, isFollower = true)
             }
-            userFollowerDao.deleteAll()
+            userFollowerDao.deleteAllFollower()
             userFollowerDao.insert(usersList)
         }catch (e : Exception){
             Log.d(TAG, "getUserFollowers : ${e.message.toString()} ")
@@ -73,15 +80,45 @@ class UserRepository(
         try {
             val response = apiService.getFollowing(username)
             val usersList = response.map {
-                UserFollowerEntity(it.login,it.avatarUrl)
+                UserFollowerEntity(username=it.login, avatarUrl = it.avatarUrl, isFollower = false)
             }
-            userFollowerDao.deleteAll()
+            userFollowerDao.deleteAllFollowing()
             userFollowerDao.insert(usersList)
         }catch (e : Exception){
             Log.d(TAG, "getUserFollowers : ${e.message.toString()} ")
             emit(Result.Error(e.message.toString()))
         }
-        val localData : LiveData<Result<List<UserFollowerEntity>>> = userFollowerDao.getAllFollower().map { Result.Success(it)  }
+        val localData : LiveData<Result<List<UserFollowerEntity>>> = userFollowerDao.getAllFollowing().map { Result.Success(it)  }
+        emitSource(localData)
+    }
+
+    fun updateToFavorite(username: String){
+        runBlocking {
+            try {
+                val isFavorited =isUserFavorited(username)
+                userDetailDao.updateToFavorite(!isFavorited,username)
+
+            }catch (e:Exception){
+                Log.d(TAG, "updateToFavorite : ${e.message.toString()} ")
+            }
+        }
+    }
+
+    fun isUserFavorited(username: String):Boolean{
+        var isFavorited = false
+        runBlocking {
+            try {
+                isFavorited = userDetailDao.isUserFavorited(username)
+            }catch (e:Exception){
+                Log.d(TAG, "isUserFavorited : ${e.message.toString()} ")
+            }
+        }
+        return isFavorited
+    }
+
+    fun getFavoritedUsers():LiveData<Result<List<UserDetailEntity>>> = liveData{
+        emit(Result.Loading)
+        val localData : LiveData<Result<List<UserDetailEntity>>> = userDetailDao.getFavoriteUsers().map { Result.Success(it)  }
         emitSource(localData)
     }
     companion object{

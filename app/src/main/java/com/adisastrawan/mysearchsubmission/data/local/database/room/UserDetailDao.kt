@@ -17,6 +17,8 @@ interface UserDetailDao {
     suspend fun updateUser(userDetailEntity: UserDetailEntity)
     @Query("SELECT EXISTS(SELECT * FROM user_detail WHERE username = :username AND favorited = 1)")
     suspend fun isUserFavorited(username: String): Boolean
+    @Query("SELECT EXISTS(SELECT * FROM user_detail WHERE username = :username)")
+    suspend fun isUserExist(username: String): Boolean
 
     @Query("SELECT * FROM user_detail WHERE username = :username")
     fun getUserDetail(username: String) : LiveData<UserDetailEntity>
@@ -24,4 +26,7 @@ interface UserDetailDao {
     suspend fun deleteAll()
     @Query("SELECT * FROM user_detail where favorited = 1")
     fun getFavoriteUsers(): LiveData<List<UserDetailEntity>>
+
+    @Query("UPDATE user_detail SET favorited = :isFavorite WHERE username=:username")
+    suspend fun updateToFavorite(isFavorite:Boolean,username: String)
 }

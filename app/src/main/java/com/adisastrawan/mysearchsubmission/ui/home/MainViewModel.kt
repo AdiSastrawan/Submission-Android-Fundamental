@@ -15,11 +15,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(private val userRepository: UserRepository): ViewModel() {
-    companion object{
-        const val TAG = "HomeFragment"
-    }
-
-
     private var _snackBarText = MutableLiveData<Event<String>>()
     val snackBarText : LiveData<Event<String>> = _snackBarText
     fun getGithubUsers(query:String) = userRepository.getUsers(query)

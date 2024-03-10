@@ -1,5 +1,6 @@
 package com.adisastrawan.mysearchsubmission.ui.detail
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.adisastrawan.mysearchsubmission.R
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserDetailEntity
 import com.adisastrawan.mysearchsubmission.data.remote.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.data.repository.Result
@@ -79,6 +81,15 @@ class DetailFragment : Fragment() {
                     Snackbar.LENGTH_SHORT).show()
             }
         }
+        binding.fabFavorite.setOnClickListener{
+            val isFavorited = viewModel.isUserFavorited(username)
+            viewModel.updateToFavorite(username)
+            if(isFavorited){
+                binding.fabFavorite.setImageResource(R.drawable.baseline_favorite_24)
+            }else{
+                binding.fabFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
+        }
     }
 
     private fun setDetailUser(userDetail: UserDetailEntity) {
@@ -87,6 +98,11 @@ class DetailFragment : Fragment() {
             tvName.text = userDetail.name
             tvFollower.text = if(userDetail.followers > 1) "${userDetail.followers} followers" else "${userDetail.followers} follower"
             tvFollowing.text = "${userDetail.following} following"
+            if(userDetail.isFavorite){
+                fabFavorite.setImageResource(R.drawable.baseline_favorite_24)
+            }else{
+                fabFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
         }
         Glide.with(this).load(userDetail.avatarUrl).into(binding.ivAvatar)
 
