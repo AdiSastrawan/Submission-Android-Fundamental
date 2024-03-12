@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserEntity
-import com.adisastrawan.mysearchsubmission.data.remote.respond.ItemsItem
 import com.adisastrawan.mysearchsubmission.databinding.ItemRowUserBinding
 import com.bumptech.glide.Glide
 

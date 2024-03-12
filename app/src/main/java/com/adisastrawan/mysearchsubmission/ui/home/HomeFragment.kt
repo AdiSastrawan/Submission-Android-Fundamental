@@ -1,22 +1,20 @@
 package com.adisastrawan.mysearchsubmission.ui.home
 
-import android.app.Application
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.adisastrawan.mysearchsubmission.data.repository.Result
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adisastrawan.mysearchsubmission.R
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserEntity
-import com.adisastrawan.mysearchsubmission.data.remote.respond.ItemsItem
+import com.adisastrawan.mysearchsubmission.data.repository.Result
 import com.adisastrawan.mysearchsubmission.databinding.FragmentHomeBinding
 import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -28,7 +26,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -84,15 +82,15 @@ class HomeFragment : Fragment() {
                 Log.d("result",result.toString())
                 when (result) {
                     is Result.Loading -> {
-                        binding?.progressBar?.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                     is Result.Success -> {
-                        binding?.progressBar?.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         val users = result.data
                         setGithubUsers(users)
                     }
                     is Result.Error -> {
-                        binding?.progressBar?.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(
                             context,
                             "Terjadi kesalahan" + result.error,

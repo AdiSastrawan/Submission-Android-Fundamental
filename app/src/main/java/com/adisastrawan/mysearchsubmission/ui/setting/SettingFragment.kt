@@ -1,7 +1,4 @@
 package com.adisastrawan.mysearchsubmission.ui.setting
-
-import android.app.Activity
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,7 +17,7 @@ class SettingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -43,6 +40,5 @@ class SettingFragment : Fragment() {
             viewModel.saveThemeSetting(isChecked)
         }
     }
-    fun isDarkTheme(activity: Activity): Boolean = activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 
 }

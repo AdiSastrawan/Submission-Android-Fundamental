@@ -1,20 +1,17 @@
 package com.adisastrawan.mysearchsubmission.ui.detail.follower
 
-import android.app.Application
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserFollowerEntity
-import com.adisastrawan.mysearchsubmission.data.remote.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.data.repository.Result
 import com.adisastrawan.mysearchsubmission.databinding.FragmentFollowerBinding
 import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
@@ -22,11 +19,11 @@ import com.google.android.material.snackbar.Snackbar
 
 class FollowerFragment : Fragment() {
     private var _binding : FragmentFollowerBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFollowerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -70,15 +67,15 @@ class FollowerFragment : Fragment() {
             Log.d("result",result.toString())
             when (result) {
                 is Result.Loading -> {
-                    binding?.progressBar?.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is Result.Success -> {
-                    binding?.progressBar?.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
                     val users = result.data
                     setFollower(users)
                 }
                 is Result.Error -> {
-                    binding?.progressBar?.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(
                         context,
                         "Terjadi kesalahan" + result.error,

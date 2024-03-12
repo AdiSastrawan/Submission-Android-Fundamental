@@ -1,12 +1,10 @@
-
+package com.adisastrawan.mysearchsubmission.ui.detail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.adisastrawan.mysearchsubmission.data.repository.UserRepository
-import com.adisastrawan.mysearchsubmission.ui.detail.DetailViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`

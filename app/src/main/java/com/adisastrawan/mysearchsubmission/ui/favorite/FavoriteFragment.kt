@@ -1,19 +1,18 @@
 package com.adisastrawan.mysearchsubmission.ui.favorite
 
-import android.app.Application
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserDetailEntity
+import com.adisastrawan.mysearchsubmission.data.repository.Result
 import com.adisastrawan.mysearchsubmission.databinding.FragmentFavoriteBinding
 import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
-import com.adisastrawan.mysearchsubmission.data.repository.Result
 
 class FavoriteFragment : Fragment() {
     private var _binding : FragmentFavoriteBinding? = null
@@ -21,7 +20,7 @@ class FavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater,container, false)
         return binding.root
     }
@@ -38,15 +37,15 @@ class FavoriteFragment : Fragment() {
             if (result != null) {
                 when(result) {
                     is Result.Loading -> {
-                        binding?.progressBar?.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                     is Result.Success -> {
-                        binding?.progressBar?.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         val users = result.data
                         setFavoritedUsers(users)
                     }
                     is Result.Error -> {
-                        binding?.progressBar?.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(
                             context,
                             "Terjadi kesalahan" + result.error,

@@ -6,13 +6,13 @@
         android:title="@string/favorite"
         android:icon="@drawable/baseline_favorite_24"
         android:iconTint="?android:attr/textColorPrimary"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
     <item
         android:id="@+id/menu_setting"
         android:title="@string/setting"
         android:icon="@drawable/baseline_settings_24"
         android:iconTint="?android:attr/textColorPrimary"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
 </menu>

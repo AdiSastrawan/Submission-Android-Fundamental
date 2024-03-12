@@ -7,10 +7,6 @@ import com.adisastrawan.mysearchsubmission.data.repository.UserRepository
 import com.adisastrawan.mysearchsubmission.utils.Event
 
 class FollowerViewModel(private val userRepository: UserRepository): ViewModel() {
-    companion object{
-        const val TAG = "FollowerFragment"
-    }
-
 
     private var _snackBarText = MutableLiveData<Event<String>>()
     val snackBarText : LiveData<Event<String>> = _snackBarText

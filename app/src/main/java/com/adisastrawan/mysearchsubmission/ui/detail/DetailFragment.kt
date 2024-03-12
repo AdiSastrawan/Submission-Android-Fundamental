@@ -25,7 +25,7 @@ class DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -65,12 +65,6 @@ class DetailFragment : Fragment() {
                             "Terjadi kesalahan" + result.error,
                             Toast.LENGTH_SHORT
                         ).show()
-                    }else ->{
-                    Toast.makeText(
-                        context,
-                        "Unknown Error" ,
-                        Toast.LENGTH_SHORT
-                    ).show()
                     }
                 }
             }
@@ -83,6 +77,7 @@ class DetailFragment : Fragment() {
                     Snackbar.LENGTH_SHORT).show()
             }
         }
+
         binding.fabFavorite.setOnClickListener{
             val isFavorited = viewModel.isUserFavorited(username)
             viewModel.updateToFavorite(username)
@@ -107,8 +102,8 @@ class DetailFragment : Fragment() {
         with(binding){
             tvUsername.text = userDetail.username
             tvName.text = userDetail.name
-            tvFollower.text = if(userDetail.followers > 1) "${userDetail.followers} followers" else "${userDetail.followers} follower"
-            tvFollowing.text = "${userDetail.following} following"
+            tvFollower.text = if(userDetail.followers > 1) resources.getString(R.string.followers,userDetail.followers) else "${userDetail.followers} follower"
+            tvFollowing.text = resources.getString(R.string.following,userDetail.following)
             if(userDetail.isFavorite){
                 fabFavorite.setImageResource(R.drawable.baseline_favorite_24)
             }else{

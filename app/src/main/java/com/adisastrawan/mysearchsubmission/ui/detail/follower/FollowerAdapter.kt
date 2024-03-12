@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserFollowerEntity
-import com.adisastrawan.mysearchsubmission.data.remote.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.databinding.ItemRowUserBinding
 import com.bumptech.glide.Glide
 

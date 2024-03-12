@@ -2,7 +2,6 @@ package com.adisastrawan.mysearchsubmission.data.remote.retrofit
 
 import com.adisastrawan.mysearchsubmission.data.remote.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.data.remote.respond.GithubUsersResponse
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
