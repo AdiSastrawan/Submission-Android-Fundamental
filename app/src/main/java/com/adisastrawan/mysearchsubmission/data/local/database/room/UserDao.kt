@@ -11,10 +11,8 @@ import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserEntit
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(userEntity: List<UserEntity>)
-
     @Query("DELETE FROM user ")
     suspend fun deleteAll()
-
     @Query("SELECT * FROM user ")
     fun getAllUser() : LiveData<List<UserEntity>>
 

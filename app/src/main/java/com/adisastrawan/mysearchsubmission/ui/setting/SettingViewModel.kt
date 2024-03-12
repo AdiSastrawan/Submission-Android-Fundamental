@@ -1,4 +1,4 @@
-package com.adisastrawan.mysearchsubmission.ui
+package com.adisastrawan.mysearchsubmission.ui.setting
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

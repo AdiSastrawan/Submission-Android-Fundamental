@@ -1,8 +1,7 @@
 package com.adisastrawan.mysearchsubmission.ui.detail
 
-import android.app.Application
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.adisastrawan.mysearchsubmission.R
 import com.adisastrawan.mysearchsubmission.data.local.database.enitity.UserDetailEntity
-import com.adisastrawan.mysearchsubmission.data.remote.respond.DetailUserResponse
 import com.adisastrawan.mysearchsubmission.data.repository.Result
 import com.adisastrawan.mysearchsubmission.databinding.FragmentDetailBinding
 import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
@@ -52,23 +49,28 @@ class DetailFragment : Fragment() {
         }.attach()
         viewModel.getDetailUser(username).observe(viewLifecycleOwner){result->
             if (result != null) {
-                Log.d("result",result.toString())
                 when (result) {
                     is Result.Loading -> {
-                        binding?.progressBar?.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                     is Result.Success -> {
-                        binding?.progressBar?.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         val user = result.data
                         setDetailUser(user)
                     }
                     is Result.Error -> {
-                        binding?.progressBar?.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(
                             context,
                             "Terjadi kesalahan" + result.error,
                             Toast.LENGTH_SHORT
                         ).show()
+                    }else ->{
+                    Toast.makeText(
+                        context,
+                        "Unknown Error" ,
+                        Toast.LENGTH_SHORT
+                    ).show()
                     }
                 }
             }
@@ -89,6 +91,15 @@ class DetailFragment : Fragment() {
             }else{
                 binding.fabFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
             }
+        }
+        binding.fabShare.setOnClickListener{
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT,"https://github.com/$username")
+                type ="text/plain"
+            }
+            val shareIntent = Intent.createChooser(intent,null)
+            startActivity(shareIntent)
         }
     }
 

@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.viewModels
 import com.adisastrawan.mysearchsubmission.databinding.ActivityMainBinding
-import com.adisastrawan.mysearchsubmission.ui.SettingViewModel
+import com.adisastrawan.mysearchsubmission.ui.setting.SettingViewModel
 import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
 
 

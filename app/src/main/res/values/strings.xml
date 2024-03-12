@@ -7,4 +7,6 @@
     <string name="favorite">Favorite</string>
     <string name="darkmode">DarkMode</string>
     <string name="setting">Setting</string>
+    <string name="share">Share</string>
+    <string name="follower">Follower</string>
 </resources>

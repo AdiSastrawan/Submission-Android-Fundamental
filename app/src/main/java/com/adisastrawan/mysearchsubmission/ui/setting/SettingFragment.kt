@@ -11,7 +11,6 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import com.adisastrawan.mysearchsubmission.databinding.FragmentSettingBinding
-import com.adisastrawan.mysearchsubmission.ui.SettingViewModel
 import com.adisastrawan.mysearchsubmission.ui.ViewModelFactory
 
 

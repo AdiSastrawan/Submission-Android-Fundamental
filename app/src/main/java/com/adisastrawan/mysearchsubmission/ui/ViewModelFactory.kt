@@ -10,9 +10,10 @@ import com.adisastrawan.mysearchsubmission.ui.detail.follower.FollowerViewModel
 import com.adisastrawan.mysearchsubmission.ui.favorite.FavoriteViewModel
 import com.adisastrawan.mysearchsubmission.ui.home.MainViewModel
 import com.adisastrawan.mysearchsubmission.ui.setting.SettingPreferences
+import com.adisastrawan.mysearchsubmission.ui.setting.SettingViewModel
 import com.adisastrawan.mysearchsubmission.ui.setting.dataStore
 
-class ViewModelFactory private constructor(private val userRepository: UserRepository,private val preferences: SettingPreferences) : ViewModelProvider.NewInstanceFactory(){
+class ViewModelFactory private constructor(private val userRepository: UserRepository, private val preferences: SettingPreferences) : ViewModelProvider.NewInstanceFactory(){
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

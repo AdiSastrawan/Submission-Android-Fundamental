@@ -1,6 +1,5 @@
 package com.adisastrawan.mysearchsubmission.data.repository
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
@@ -12,7 +11,6 @@ import com.adisastrawan.mysearchsubmission.data.local.database.room.UserDao
 import com.adisastrawan.mysearchsubmission.data.local.database.room.UserDetailDao
 import com.adisastrawan.mysearchsubmission.data.local.database.room.UserFollowerDao
 import com.adisastrawan.mysearchsubmission.data.remote.retrofit.ApiService
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 
 class UserRepository(
@@ -97,7 +95,6 @@ class UserRepository(
             try {
                 val isFavorited =isUserFavorited(username)
                 userDetailDao.updateToFavorite(!isFavorited,username)
-
             }catch (e:Exception){
                 Log.d(TAG, "updateToFavorite : ${e.message.toString()} ")
             }

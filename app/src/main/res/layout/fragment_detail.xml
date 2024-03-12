@@ -75,10 +75,11 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/follower"
+        app:layout_constraintBottom_toTopOf="@id/view_pager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_follower"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tv_follower" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -100,7 +101,9 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_favorite"
         android:layout_width="wrap_content"
@@ -108,7 +111,21 @@
         android:layout_margin="16dp"
         android:foregroundGravity="bottom"
         app:fabSize="normal"
+        android:contentDescription="@string/favorite"
         app:layout_anchor="@id/container"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/baseline_favorite_border_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="90dp"
+        android:contentDescription="@string/share"
+        app:fabSize="normal"
+        app:layout_anchor="@id/container"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/baseline_share_24" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
