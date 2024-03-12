@@ -1,4 +1,4 @@
-package com.adisastrawan.mysearchsubmission.data.respond
+package com.adisastrawan.mysearchsubmission.data.remote.respond
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">MySearchSubmission</string>
     <string name="searchbar_username">Enter Username</string>
+    <string name="no_user_found">No User Found</string>
+    <string name="image_avatar">image avatar</string>
+    <string name="favorite">Favorite</string>
+    <string name="darkmode">DarkMode</string>
+    <string name="setting">Setting</string>
+    <string name="share">Share</string>
+    <string name="follower">Follower</string>
+    <string name="followers">%d followers</string>
+    <string name="following">%d following</string>
 </resources>
